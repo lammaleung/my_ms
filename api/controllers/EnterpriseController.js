@@ -6,7 +6,12 @@
  */
 
 module.exports = {
-  
+    json: async function (req, res) {
+
+        var enterprises = await Enterprise.find();
+    
+        return res.json(enterprises);
+    },
 
 };
 

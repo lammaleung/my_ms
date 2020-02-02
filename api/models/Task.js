@@ -38,7 +38,7 @@ module.exports = {
       type: 'string'
     },
     inspectorNo: {
-      type: 'integer'
+      type: 'number'
     },
     inspectorType: {
       type: 'string'
@@ -47,7 +47,7 @@ module.exports = {
       type: 'string'
     },
     price:{
-      type: 'integer'
+      type: 'number'
     }, 
     date:{
       type: 'string'
