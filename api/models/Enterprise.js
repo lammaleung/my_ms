@@ -12,7 +12,26 @@ module.exports = {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
-
+    email: {
+      type: 'string',
+      unique: true,
+      required: true
+    },
+    password:{
+      type: 'string',
+      required: true
+    },
+    name: {
+      type: 'string',
+      required: true
+    },
+    industry: {
+      type: 'string'
+    },
+    balance: {
+      type: 'number',
+      defaultsTo: 0
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
@@ -22,25 +41,11 @@ module.exports = {
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
-    owns: {
+    has_task: {
       collection: 'Task',
-      via: 'belongs'
+      via: 'belongs_enterprise'
     },
-    email: {
-      type: 'string',
-      unique: true,
-      required: true
-    },
-    name: {
-      type: 'string',
-    },
-    industry: {
-      type: 'string'
-    },
-    balance: {
-      type: 'integer',
-      defaultsTo: 0
-    },
+    
   },
 
 };
