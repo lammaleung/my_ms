@@ -30,9 +30,12 @@ module.exports = {
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
 
+    // belongs_plan: {
+    //   collection: 'Plan',
+    //   via: 'has_sample'
+    // },
     belongs_plan: {
-      collection: 'Plan',
-      via: 'has_sample'
+      model: 'Plan'
     },
   },
 

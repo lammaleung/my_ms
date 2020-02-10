@@ -6,7 +6,12 @@
  */
 
 module.exports = {
-  
+    json: async function (req, res) {
+
+        var tasks = await Task.find();
+    
+        return res.json(tasks);
+    },
 
 };
 
