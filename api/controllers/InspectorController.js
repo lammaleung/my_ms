@@ -12,4 +12,12 @@ module.exports = {
     
         return res.json(inspectors);
     },
+    // create: function (req, res) {
+
+    //     if (req.method == "POST") {
+    //         Inspector.create(req.body.Inspector).exec(function (err, model) {
+    //             return res.send("Successfully Created!");
+    //         });
+    //     } 
+    // },
 };

@@ -26,12 +26,18 @@ module.exports.bootstrap = async function () {
   //   // etc.
   // ]);
   // ```
-  var inspectors = [
-    { "email": "admin", "password": "123456", "gender": "male", "id": 101 },
-    { "email": "boss", "password": "123456", "gender": "female","id": 102 }
-  ];
+  if (await Inspector.count() <= 0) {
+    await Inspector.create(
+      { email: "emma@gmail.com", name: "emma", password: "12345", gender: "female", birth: "2/17/97", education: "Associate degree", employment_status: "Employed full time", balance: "1000", rating: "4.5" }
+    );
+  }
+  // return res.ok();
+  // var inspectors = [
+  //   { email : "admin", password: "123456", gender: "male", id: 101 },
+  //   { email: "boss", password: "123456", gender: "female",id: 102 }
+  // ];
 
-  inspectors.forEach(function (inspector) {
-    Inspector.create(inspector).exec(function (err, model) { });
-  });
+  // inspectors.forEach(function (inspector) {
+  //   Inspector.create(inspector).exec(function (err, model) { });
+  // });
 };

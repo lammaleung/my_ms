@@ -19,13 +19,13 @@ module.exports = {
     address: {
       type: 'string'
     },
-    inspectorNo: {
+    inspector_no: {
       type: 'number'
     },
-    inspectorType: {
+    inspector_type: {
       type: 'string'
     },
-    category: {
+    industry: {
       type: 'string'
     },
     price:{

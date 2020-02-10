@@ -31,13 +31,19 @@ module.exports = {
     },
     education: {
       type: 'string',
-      enum: ['high school or lower', 'higher diploma', 'associate degree', 'bachelor\'s degree', 'master\'s degree or higher', 'other'],
-      defaultsTo: ''
+      enum: ['High school or lower', 'Higher diploma', 'Associate degree', 'Bachelor\'s degree', 'Master\'s degree or higher', 'Other'],
+      defaultsTo: 'Other'
     },
-    occupation: {
+    employment_status: {
       type: 'string',
+      enum: ['Employed full time', 'Employed part time', 'Self-employed', 'Student', 'Homemaker', 'Unemployed','Other'],
+      defaultsTo: 'Other'
     },
     balance: {
+      type: 'number',
+      defaultsTo: 0
+    },
+    rating: {
       type: 'number',
       defaultsTo: 0
     },
