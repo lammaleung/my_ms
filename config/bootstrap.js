@@ -10,44 +10,45 @@
  */
 
 module.exports.bootstrap = async function () {
-
-  // By convention, this is a good place to set up fake data during development.
-  //
-  // For example:
-  // ```
-  // // Set up fake development data (or if we already have some, avast)
-  // if (await User.count() > 0) {
-  //   return;
-  // }
-  //
-  // await User.createEach([
-  //   { emailAddress: 'ry@example.com', fullName: 'Ryan Dahl', },
-  //   { emailAddress: 'rachael@example.com', fullName: 'Rachael Shaw', },
-  //   // etc.
-  // ]);
-  // ```
+  // sails.bcrypt = require('bcryptjs');
+  // const saltRounds = 10;
+  // // 
+  // const hash = await sails.bcrypt.hash('123456', saltRounds);
+  // var enterprises = await Enterprise.find();
+  // enterprises.forEach(function (enterprise, index) {
+  //   // const hash = sails.bcrypt.hash('123456', saltRounds);
+  //   var criteria = { email: enterprise.email },
+  //     update = { "$set": { "password": hash } },
+  //     options = { "new": true };
+  //   // Grab an instance of the mongo-driver
+  //   Enterprise.native(function (err, collection) {
+  //     if (err) return res.serverError(err);
+  //     // Execute any query that works with the mongo js driver
+  //     collection.findAndModify(
+  //       criteria,
+  //       null,
+  //       update,
+  //       options,
+  //       function (err, updatedPerson) {
+  //         console.log(updatedPerson);
+  //       }
+  //     );
+  //   });
+  // });
   if (await Inspector.count() <= 0) {
     await Inspector.create(
       { email: "emma@gmail.com", name: "emma", password: "12345", gender: "female", birth: "2/17/97", education: "Associate degree", employment_status: "Employed full time", balance: "1000", rating: "4.5" }
     );
   }
-  // return res.ok();
-  // var inspectors = [
-  //   { email : "admin", password: "123456", gender: "male", id: 101 },
-  //   { email: "boss", password: "123456", gender: "female",id: 102 }
-  // ];
-
-  // inspectors.forEach(function (inspector) {
-  //   Inspector.create(inspector).exec(function (err, model) { });
-  // });
   var plans = await Plan.find();
   var samples = await Sample_Question.find();
   var inspectors = await Inspector.find();
   var tasks = await Task.find();
-  await Inspector.update(
-    { name: "emma" },
-    { has_task: tasks[0].id }
-  )
+ 
+  // Sample_Question.findOne({id:"5e4172b977568c69fb65204c"}).exec(function (err, record){
+  //   //record completely different
+  //   console.log("oooooooo"+ record.content);
+  // });
   // add sample association to plan
   // var i;
   // for (i = 1; i < samples.length; i++) {

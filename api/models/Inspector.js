@@ -23,20 +23,20 @@ module.exports = {
     },
     gender: {
       type: 'string',
-      enum: ['male', 'female', 'other'],
-      defaultsTo: 'other'
+      isIn: ['Male', 'Female', 'Other'],
+      defaultsTo: 'Other'
     },
     birth: {
       type: 'string'
     },
     education: {
       type: 'string',
-      enum: ['High school or lower', 'Higher diploma', 'Associate degree', 'Bachelor\'s degree', 'Master\'s degree or higher', 'Other'],
+      isIn: ['High school or lower', 'Higher diploma', 'Associate degree', 'Bachelor\'s degree', 'Master\'s degree or higher', 'Other'],
       defaultsTo: 'Other'
     },
     employment_status: {
       type: 'string',
-      enum: ['Employed full time', 'Employed part time', 'Self-employed', 'Student', 'Homemaker', 'Unemployed','Other'],
+      isIn: ['Employed full time', 'Employed part time', 'Self-employed', 'Student', 'Homemaker', 'Unemployed','Other'],
       defaultsTo: 'Other'
     },
     balance: {

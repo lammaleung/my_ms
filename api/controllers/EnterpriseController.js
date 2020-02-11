@@ -12,18 +12,43 @@ module.exports = {
     
         return res.json(enterprises);
     },
-    // create: async function (req, res) {
+    login: function (req, res) {
+        if (req.method == "POST"){
+            // sails.log.debug(req.param('email'));
+            // sails.log.debug(req.param('password'));
+            Enterprise.findOne({ email: req.query.email }).exec(function (err, enterprise) {
+                sails.log.debug(req.query.email);
+                if (enterprise == null)
+                    return res.send("No such user");
+                // if (user.password != req.body.password)
+                // return res.send("Wrong Password");
 
-    //     if (req.method == "GET")
-    //         return res.view('person/create');
-    
-    //     if (!req.body.Person)
-    //         return res.badRequest("Form-data not received.");
-    
-    //     await Person.create(req.body.Person);
-    
-    //     return res.ok("Successfully created!");
-    // },
+                // Load the bcrypt module
+                // var bcrypt = require('bcryptjs');
+                // // Generate a salt
+                // var salt = bcrypt.genSaltSync(10);
+                // //  if (user.password != req.body.password)
+                // if (!bcrypt.compareSync(req.body.password, user.password))
+                //     return res.send("Wrong Password");
+                if (enterprise.password != req.query.password)
+                    return res.send("Wrong Password");
+                console.log("The session id " + req.session.id + " is going to be destroyed.");
+                req.session.regenerate(function (err) {
+                    console.log("The new session id is " + req.session.id + ".");
+                    //save to cookies
+                    // req.session.uid = enterprise.id;
+                    req.session.email = req.query.email;
+                    return res.send("login successfully.");
+                });
+            });
+        }
+    },
+    logout: function (req, res) {
+        console.log("The current session id " + req.session.id + " is going to be destroyed.");
+        req.session.destroy(function (err) {
+            return res.send("Log out successfully.");
+        });
+    },
     view: async function (req, res) {
 
         var model = await Inspector.findOne(req.params.id);
