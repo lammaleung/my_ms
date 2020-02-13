@@ -12,6 +12,23 @@ module.exports = {
 
         return res.json(enterprises);
     },
+    signup: async function (req, res) {
+        if (req.method == "POST") {
+            _enterprise = {};
+            sails.bcrypt = require('bcryptjs');
+            const saltRounds = 10;
+            const hash = await sails.bcrypt.hash(req.query.password, saltRounds);
+            _enterprise.email = req.query.email;
+            _enterprise.password = hash;
+            _enterprise.name = req.query.name;
+            _enterprise.industry = req.query.industry;
+            var model = await Enterprise.create(_enterprise).fetch();
+            if (!model) {
+                return res.send("Cannot create!");
+            }
+            return res.send("Successfully Created!");
+        }
+    },
     login: function (req, res) {
         if (req.method == "POST") {
             Enterprise.findOne({ email: req.query.email }).exec(function (err, enterprise) {
@@ -45,25 +62,38 @@ module.exports = {
     // update function
     update: async function (req, res) {
         if (req.method == "POST") {
-            if (req.session.email == null){
+            if (req.session.uid == null) {
                 return res.send("Log in first!");
             }
             var new_name = req.query.name;
             var new_industry = req.query.industry;
-            await Enterprise.update({ email: req.session.email }).set({
-                "name": new_name, "industry": new_industry 
+            await Enterprise.update({ id: req.session.uid }).set({
+                "name": new_name, "industry": new_industry
             })
             return res.send("Successfully updated!");
         }
     },
+    // view current user's info
     view: async function (req, res) {
-
-        var model = await Inspector.findOne(req.query.id);
+        if (!req.session.uid)
+            return res.send("Log in first!");
+        var model = await Enterprise.findOne(req.session.uid);
 
         if (!model) return res.notFound();
 
         return res.json(model);
 
     },
+    topup: async function(req, res){
+        if (!req.session.uid)
+            return res.send("Log in first!");
+        var model = await Enterprise.findOne(req.session.uid);
+        var topup_value = parseFloat(req.query.value);
+        var new_value = model.balance + topup_value;
+        await Enterprise.update({ id: req.session.uid }).set({
+            "balance": new_value
+        })
+        return res.send("Top up successfully!")
+    }
 };
 

@@ -7,9 +7,7 @@
 
 module.exports = {
     json: async function (req, res) {
-
         var inspectors = await Inspector.find();
-    
         return res.json(inspectors);
     },
     // create: function (req, res) {
