@@ -29,13 +29,13 @@ module.exports = {
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
-    // belongs_task: {
-    //   collection: 'Task',
-    //   via: 'has_question'
-    // },
     belongs_task: {
-      model: 'Task'
+      collection: 'Task',
+      via: 'has_question'
     },
+    // belongs_task: {
+    //   model: 'Task'
+    // },
   },
 
 };

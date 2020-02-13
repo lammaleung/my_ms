@@ -10,31 +10,13 @@
  */
 
 module.exports.bootstrap = async function () {
-  // sails.bcrypt = require('bcryptjs');
-  // const saltRounds = 10;
-  // // 
-  // const hash = await sails.bcrypt.hash('123456', saltRounds);
-  // var enterprises = await Enterprise.find();
-  // enterprises.forEach(function (enterprise, index) {
-  //   // const hash = sails.bcrypt.hash('123456', saltRounds);
-  //   var criteria = { email: enterprise.email },
-  //     update = { "$set": { "password": hash } },
-  //     options = { "new": true };
-  //   // Grab an instance of the mongo-driver
-  //   Enterprise.native(function (err, collection) {
-  //     if (err) return res.serverError(err);
-  //     // Execute any query that works with the mongo js driver
-  //     collection.findAndModify(
-  //       criteria,
-  //       null,
-  //       update,
-  //       options,
-  //       function (err, updatedPerson) {
-  //         console.log(updatedPerson);
-  //       }
-  //     );
-  //   });
-  // });
+  sails.bcrypt = require('bcryptjs');
+  const saltRounds = 10;
+  // 
+  const hash = await sails.bcrypt.hash('123456', saltRounds);
+  var enterprises = await Enterprise.find();
+
+
   if (await Inspector.count() <= 0) {
     await Inspector.create(
       { email: "emma@gmail.com", name: "emma", password: "12345", gender: "female", birth: "2/17/97", education: "Associate degree", employment_status: "Employed full time", balance: "1000", rating: "4.5" }
@@ -44,7 +26,7 @@ module.exports.bootstrap = async function () {
   var samples = await Sample_Question.find();
   var inspectors = await Inspector.find();
   var tasks = await Task.find();
- 
+
   // Sample_Question.findOne({id:"5e4172b977568c69fb65204c"}).exec(function (err, record){
   //   //record completely different
   //   console.log("oooooooo"+ record.content);
@@ -71,23 +53,22 @@ module.exports.bootstrap = async function () {
   //     tmp = "Managment";
   //     // console.log(samples[i].id)
   //   }
-  //   await Plan.update(
-  //     // Find all users with ULId = IC666
-  //     { detail: "Management" },
-  //     // Update their FHName and Ward fields
-  //     { has_sample: samples[0]._id }
-  //   ).exec(function(err, plans) {
-  //     // In case of error, handle accordingly
-  //     if(err) {return res.serverError(err);} 
-  //     // Otherwise send a success message and a 200 status    
-  //     return res.send('success');
-
+  // await Plan.update(
+  //   // Find all users with ULId = IC666
+  //   { detail: "Management" },
+  //   // Update their FHName and Ward fields
+  //   { has_sample: samples[0]._id }
+  // ).exec(function (err, plans) {
+  //   // In case of error, handle accordingly
+  //   if (err) { return res.serverError(err); }
+  //   // Otherwise send a success message and a 200 status    
+  //   return res.send('success');
   // });
   // console.log(tmp)
-  await Plan.update({ detail: "Food Quality" })
-    .set({
-      has_sample: samples[1].id
-    })
+  // await Plan.update({ detail: "Food Quality" })
+  //   .set({
+  //     has_sample: samples[1].id
+  //   })
   var samples = await Sample_Question.find().populate('belongs_plan');
   var plans = await Plan.find().populate('has_sample');
 
