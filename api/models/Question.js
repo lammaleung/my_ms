@@ -33,6 +33,10 @@ module.exports = {
       collection: 'Task',
       via: 'has_question'
     },
+    has_answer:{
+      collection: 'Answer',
+      via: 'belongs_question'
+    }
     // belongs_task: {
     //   model: 'Task'
     // },

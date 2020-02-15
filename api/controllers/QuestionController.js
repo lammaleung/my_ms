@@ -6,12 +6,14 @@
  */
 
 module.exports = {
+    // view all question
     json: async function (req, res) {
 
         var questions = await Question.find();
 
         return res.json(questions);
     },
+    // add questions by passing task id and question ids
     add: async function (req, res) {
 
         // var questions = await Question.find();
@@ -26,6 +28,11 @@ module.exports = {
         }
         return res.ok("Okay")
     },
+    viewanswer: async function (req, res){
+        var model = await Task.findOne(req.query.id).populate('has_answer');
+        if (!model) return res.notFound();
 
+        return res.json(model.has_answer);
+    }
 };
 

@@ -6,7 +6,12 @@
  */
 
 module.exports = {
-  
+    // view all plan
+    json: async function (req, res) {
 
+        var plans = await Plan.find();
+
+        return res.json(plans);
+    },
 };
 

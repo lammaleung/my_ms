@@ -17,12 +17,8 @@ module.exports = {
       type: 'string',
       required: true
     },
-    question_id: {
-      type: 'number',
-      required: true
-    },
     inspector_id: {
-      type: 'number',
+      type: 'string',
       required: true
     },
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -33,13 +29,21 @@ module.exports = {
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
-    belongs_task: {
-      collection: 'Task',
-      via: 'has_answer'
-    },
+    // belongs_task: {
+    //   collection: 'Task',
+    //   via: 'has_answer'
+    // },
     // belongs_task: {
     //   model: 'Task'
     // },
+    belongs_question:{
+      collection: 'Question',
+      via: 'has_answer'
+    },
+    // belongs_inspector:{
+    //   collection: 'Inspector',
+    //   via: 'has_answer'
+    // }
   },
 
 };

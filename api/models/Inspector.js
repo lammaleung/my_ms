@@ -59,7 +59,10 @@ module.exports = {
       collection: 'Task',
       via: 'belongs_inspector'
     },
-
+    // has_answer:{
+    //   collection: 'Answer',
+    //   via: 'belongs_inspector'
+    // }
 
   },
 

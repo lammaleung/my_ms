@@ -51,10 +51,10 @@ module.exports = {
       collection: 'Enterprise',
       via: 'has_task'
     },
-    has_answer:{
-      collection: 'Answer',
-      via: 'belongs_task'
-    },
+    // has_answer:{
+    //   collection: 'Answer',
+    //   via: 'belongs_task'
+    // },
     has_question:{
       collection: 'Question',
       via: 'belongs_task'

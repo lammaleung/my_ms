@@ -6,10 +6,12 @@
  */
 
 module.exports = {
+    // view all inspector
     json: async function (req, res) {
         var inspectors = await Inspector.find();
         return res.json(inspectors);
     },
+    // sign up for new account
     signup: async function (req, res) {
         if (req.method == "POST") {
             _inspector = {};
@@ -26,6 +28,7 @@ module.exports = {
             return res.send("Successfully Created!");
         }
     },
+    // log in function
     login: function (req, res) {
         if (req.method == "POST") {
             Inspector.findOne({ email: req.query.email }).exec(function (err, inspector) {
@@ -50,6 +53,7 @@ module.exports = {
             });
         }
     },
+    // logout function
     logout: function (req, res) {
         console.log("The current session id " + req.session.id + " is going to be destroyed.");
         req.session.destroy(function (err) {
@@ -88,6 +92,7 @@ module.exports = {
         return res.json(model);
 
     },
+    // add value to balance
     getpaid: async function(req, res){
         if (!req.session.uid)
             return res.send("Log in first!");

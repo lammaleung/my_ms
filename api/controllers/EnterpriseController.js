@@ -6,12 +6,14 @@
  */
 
 module.exports = {
+    // view all enterprise
     json: async function (req, res) {
 
         var enterprises = await Enterprise.find();
 
         return res.json(enterprises);
     },
+    // create new account
     signup: async function (req, res) {
         if (req.method == "POST") {
             _enterprise = {};
@@ -29,6 +31,7 @@ module.exports = {
             return res.send("Successfully Created!");
         }
     },
+    // login function
     login: function (req, res) {
         if (req.method == "POST") {
             Enterprise.findOne({ email: req.query.email }).exec(function (err, enterprise) {
@@ -53,6 +56,7 @@ module.exports = {
             });
         }
     },
+    // logout function
     logout: function (req, res) {
         console.log("The current session id " + req.session.id + " is going to be destroyed.");
         req.session.destroy(function (err) {
@@ -84,6 +88,7 @@ module.exports = {
         return res.json(model);
 
     },
+    // add value to balance
     topup: async function(req, res){
         if (!req.session.uid)
             return res.send("Log in first!");
@@ -94,6 +99,16 @@ module.exports = {
             "balance": new_value
         })
         return res.send("Top up successfully!")
-    }
+    },
+    // view tasks info
+    viewtask: async function (req, res) {
+        if (!req.session.uid)
+            return res.send("Log in first!");
+        var model = await Enterprise.findOne(req.session.uid).populate('has_task');
+        if (!model) return res.notFound();
+
+        return res.json(model.has_task);
+
+    },
 };
 
