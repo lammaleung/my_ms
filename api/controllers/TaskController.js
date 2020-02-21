@@ -10,7 +10,7 @@ module.exports = {
     json: async function (req, res) {
 
         var tasks = await Task.find();
-    
+
         return res.json(tasks);
     },
     // create new task
@@ -23,7 +23,7 @@ module.exports = {
             _task.industry = req.query.industry;
             _task.pay = req.query.pay;
             _task.date = req.query.date;
-            
+
             var model = await Task.create(_task).fetch();
             if (!model) {
                 return res.send("Cannot create!");
@@ -32,6 +32,16 @@ module.exports = {
             return res.send("Successfully Created!");
         }
     },
-    
+    getTask: async function (req, res) {
+        var tasks = await Task.find();
+        var start_pt = req.query.start;
+        var limit = req.query.limit;
+        var filter_tasks = [];
+        var i;
+        for (i = start_pt; i <= limit; i++) {
+            filter_tasks.push(tasks[i]);
+        }
+        return res.json(filter_tasks);
+    }
 };
 
