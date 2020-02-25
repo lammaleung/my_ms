@@ -28,8 +28,8 @@ module.exports = {
     industry: {
       type: 'string'
     },
-    price:{
-      type: 'number'
+    pay:{
+      type: 'string'
     }, 
     date:{
       type: 'string'

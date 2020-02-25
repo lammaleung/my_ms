@@ -38,9 +38,11 @@ module.exports = {
         var limit = req.query.limit;
         var filter_tasks = [];
         var i;
-        for (i = start_pt; i <= limit; i++) {
+        var end_pt = Math.min(tasks.length, limit)
+        for (i = start_pt; i < end_pt; i++) {
             filter_tasks.push(tasks[i]);
         }
+        
         return res.json(filter_tasks);
     }
 };

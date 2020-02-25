@@ -20,10 +20,22 @@ module.exports = {
             sails.bcrypt = require('bcryptjs');
             const saltRounds = 10;
             const hash = await sails.bcrypt.hash(req.query.password, saltRounds);
+            if (req.query.email == "")
+            return res.send("Null input: email");
+            if (req.query.password == "")
+            return res.send("Null input: password");
+            if (req.query.name == "")
+            return res.send("Null input: name");
+            var check_email = await Enterprise.findOne({ email: req.query.email });
+            if (!check_email){
+                
+            }else{
+                return res.send("Email is taken");
+            }
             _enterprise.email = req.query.email;
             _enterprise.password = hash;
             _enterprise.name = req.query.name;
-            _enterprise.industry = req.query.industry;
+            // _enterprise.industry = req.query.industry;
             var model = await Enterprise.create(_enterprise).fetch();
             if (!model) {
                 return res.send("Cannot create!");
