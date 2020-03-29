@@ -63,7 +63,7 @@ module.exports = {
                     //save to cookies
                     req.session.uid = enterprise.id;
                     req.session.email = req.query.email;
-                    return res.send("login successfully.");
+                    return res.send(req.session.uid);
                 });
             });
         }
@@ -78,12 +78,12 @@ module.exports = {
     // update function
     update: async function (req, res) {
         if (req.method == "POST") {
-            if (req.session.uid == null) {
+            if (req.query.uid == null) {
                 return res.send("Log in first!");
             }
             var new_name = req.query.name;
             var new_industry = req.query.industry;
-            await Enterprise.update({ id: req.session.uid }).set({
+            await Enterprise.update({ id: req.query.uid }).set({
                 "name": new_name, "industry": new_industry
             })
             return res.send("Successfully updated!");
@@ -91,11 +91,12 @@ module.exports = {
     },
     // view current user's info
     view: async function (req, res) {
-        if (!req.session.uid)
-            return res.send("Log in first!");
-        var model = await Enterprise.findOne(req.session.uid);
-
-        if (!model) return res.notFound();
+        // var userid = req.query.id;
+        // if (!req.session.uid)
+        //     return res.send("Log in first!");
+        // var model = await Enterprise.findOne(req.session.uid);
+        var model = await Enterprise.findOne(req.query.id);
+        if (!model) return res.send("Not Found");
 
         return res.json(model);
 
