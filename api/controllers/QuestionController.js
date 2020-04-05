@@ -19,6 +19,8 @@ module.exports = {
         // var questions = await Question.find();
         if (req.method == "POST") {
             var taskId = req.query.task_id;
+            console.log(req.body);
+            console.log(req.query.task_id);
             // console.log(req.body)
             var models = await Question.createEach(req.body).fetch();
             if (models.length == 0) {

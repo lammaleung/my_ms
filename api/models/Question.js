@@ -15,7 +15,6 @@ module.exports = {
 
     question_type: {
       type: 'string',
-      required: true
     },
     content: {
       type: 'string',

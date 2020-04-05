@@ -31,7 +31,13 @@ module.exports = {
     pay:{
       type: 'string'
     }, 
-    date:{
+    start_date:{
+      type: 'string'
+    },
+    end_date:{
+      type: 'string'
+    },
+    payment_reference:{
       type: 'string'
     },
 
