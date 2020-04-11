@@ -20,12 +20,6 @@ module.exports = {
             sails.bcrypt = require('bcryptjs');
             const saltRounds = 10;
             const hash = await sails.bcrypt.hash(req.query.password, saltRounds);
-            if (req.query.email == "")
-            return res.send("Null input: email");
-            if (req.query.password == "")
-            return res.send("Null input: password");
-            if (req.query.name == "")
-            return res.send("Null input: name");
             var check_email = await Enterprise.findOne({ email: req.query.email });
             if (!check_email){
                 
@@ -40,6 +34,15 @@ module.exports = {
             if (!model) {
                 return res.send("Cannot create!");
             }
+            _notification = {};
+            _notification.title = "New to WeTell";
+            _notification.details = "Welcome to WeTell! In WeTell, you are able to create task. Please check out the functions!";
+            var notification_model = await Notification.create(_notification).fetch();
+            if (!notification_model) {
+                // return res.send("Cannot create!");
+                console.log("cannot create notification");
+            }
+            await Enterprise.addToCollection(model.id, 'has_notification').members(notification_model.id);
             return res.send("Successfully Created!");
         }
     },
@@ -115,13 +118,68 @@ module.exports = {
     },
     // view tasks info
     viewtask: async function (req, res) {
-        if (!req.session.uid)
-            return res.send("Log in first!");
-        var model = await Enterprise.findOne(req.session.uid).populate('has_task');
+        // if (!req.session.uid)
+        //     return res.send("Log in first!");
+        var model = await Enterprise.findOne(req.query.uid).populate('has_task');
         if (!model) return res.notFound();
 
         return res.json(model.has_task);
 
+    },
+    getNotification: async function (req, res) {
+        // if (!req.session.uid)
+        //     return res.send("Log in first!");
+        var model = await Enterprise.findOne(req.query.uid).populate('has_notification');
+        if (!model) return res.notFound();
+        return res.json(model.has_notification);
+
+    },
+    proceedPayment: async function (req, res){
+        var braintree = require("braintree");
+        var gateway = braintree.connect({
+        environment: braintree.Environment.Sandbox,
+        merchantId: "j7vyzhdrf4nx2grk",
+        publicKey: "vx99wmvb24rgvpnp",
+        privateKey: "sandbox_yk33c744_j7vyzhdrf4nx2grk"
+        });
+        console.log(gateway);
+        // gateway.clientToken.generate({
+        //     customerId: req.query.id
+        //   }, function (err, response) {
+        //     var clientToken = response.clientToken
+        //     return res.send(clientToken);
+        // });
+        
+        var express = require('express');
+        const app = express();
+        // app.get();
+        // app.get("/client_token", function (req, res) {
+            // gateway.clientToken.generate({}, function (err, response) {
+            //   res.send(response.clientToken);
+            // });
+        //   });
+        // app.get("/client_token", function (req, res) {
+        //     gateway.clientToken.generate({}, function (err, response) {
+        //       res.send(response.clientToken);
+        //     });
+        // });
+        //   app.post("/checkout", function (req, res) {
+        //     var nonceFromTheClient = req.body.payment_method_nonce;
+            // Use payment method nonce here
+
+            var nonceFromTheClient = req.body.payment_method_nonce;
+            gateway.transaction.sale({
+                amount: "10.00",
+                paymentMethodNonce: nonceFromTheClient,
+                // deviceData: deviceDataFromTheClient,
+                options: {
+                  submitForSettlement: true
+                }
+              }, function (err, result) {
+                  console.log(err);
+                  return res.send(result);
+              });
+        //   });
     },
 };
 

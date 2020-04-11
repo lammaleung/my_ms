@@ -25,6 +25,15 @@ module.exports = {
             if (!model) {
                 return res.send("Cannot create!");
             }
+            _notification = {};
+            _notification.title = "New to WeTell";
+            _notification.details = "Welcome to WeTell! In WeTell, you are able to earn money online. Please check out the functions!";
+            var notification_model = await Notification.create(_notification).fetch();
+            if (!notification_model) {
+                // return res.send("Cannot create!");
+                console.log("cannot create notification");
+            }
+            await Inspector.addToCollection(model.id, 'has_notification').members(notification_model.id);
             return res.send("Successfully Created!");
         }
     },
@@ -48,7 +57,7 @@ module.exports = {
                     //save to cookies
                     req.session.uid = inspector.id;
                     req.session.email = req.query.email;
-                    return res.send("login successfully.");
+                    return res.send(req.session.uid);
                 });
             });
         }
@@ -63,34 +72,27 @@ module.exports = {
     // update function
     update: async function (req, res) {
         if (req.method == "POST") {
-            if (req.session.uid == null) {
-                return res.send("Log in first!");
-            }
             var new_name = req.query.name;
             var new_gender = req.query.gender;
             var new_birth = req.query.birth;
             var new_education = req.query.education;
-            var new_occupation = req.query.occupation;
-            await Inspector.update({ id: req.session.uid }).set({
+            var new_employment_status = req.query.employment_status;
+            await Inspector.update({ id: req.query.uid }).set({
                 "name": new_name, 
                 "gender": new_gender,
                 "birth": new_birth,
                 "education": new_education,
-                "occupation": new_occupation
+                "employment_status": new_employment_status
             })
+            // print("yes");
             return res.send("Successfully updated!");
         }
     },
     // view current user's info
     view: async function (req, res) {
-        if (!req.session.uid)
-            return res.send("Log in first!");
-        var model = await Inspector.findOne(req.session.uid);
-
-        if (!model) return res.notFound();
-
+        var model = await Inspector.findOne(req.query.id);
+        if (!model) return res.send("Not Found");
         return res.json(model);
-
     },
     // add value to balance
     getpaid: async function(req, res){
@@ -103,5 +105,68 @@ module.exports = {
             "balance": new_value
         })
         return res.send("Get paid successfully!")
-    }
+    },
+    viewtask: async function (req, res) {
+        // if (!req.session.uid)
+        //     return res.send("Log in first!");
+        var model = await Inspector.findOne(req.query.id).populate('has_task');
+        if (!model) return res.notFound();
+        return res.json(model.has_task);
+
+    },
+    viewtaskLength: async function (req, res) {
+        // if (!req.session.uid)
+        //     return res.send("Log in first!");
+        var model = await Inspector.findOne(req.query.id).populate('has_task');
+        if (!model) return res.notFound();
+        // console.log(model.has_task);
+        var task_no = model.has_task.length.toString();
+        
+        return res.send(task_no);
+
+    },
+    reserveTask: async function (req, res){
+        // console.log(req.query.id);
+        // console.log(req.query.task_id);
+        var model = await Task.findOne(req.query.task_id);
+        if(model.reserved_no>=model.inspector_no) return res.send("Out of quota");
+        var new_reserved_no = model.reserved_no + 1;
+        await Task.update({ id: req.query.task_id }).set({
+            "reserved_no": new_reserved_no
+        })
+        // console.log(new_reserved_no);
+        await Inspector.addToCollection(req.query.id, 'has_task').members(req.query.task_id);
+        // await Task.addToCollection(model.id, 'belongs_enterprise').members(req.query.id);
+        return res.send("Added");
+    },
+    giveupTask: async function (req, res){
+        console.log(req.query.id);
+        console.log(req.query.task_id);
+        var model = await Task.findOne(req.query.task_id);
+        // if(model.reserved_no>=model.inspector_no) return res.send("Out of quota");
+        var new_reserved_no = model.reserved_no - 1;
+        await Task.update({ id: req.query.task_id }).set({
+            "reserved_no": new_reserved_no
+        })
+        console.log(new_reserved_no);
+        await Inspector.removeFromCollection(req.query.id, 'has_task').members(req.query.task_id);
+        return res.send("Removed");
+    },
+    
+    viewtask: async function (req, res) {
+        // if (!req.session.uid)
+        //     return res.send("Log in first!");
+        var model = await Inspector.findOne(req.query.uid).populate('has_task');
+        if (!model) return res.notFound();
+        return res.json(model.has_task);
+
+    },
+    getNotification: async function (req, res) {
+        // if (!req.session.uid)
+        //     return res.send("Log in first!");
+        var model = await Inspector.findOne(req.query.uid).populate('has_notification');
+        if (!model) return res.notFound();
+        return res.json(model.has_notification);
+
+    },
 };

@@ -1,5 +1,5 @@
 /**
- * Enterprise.js
+ * Notification.js
  *
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
@@ -12,48 +12,30 @@ module.exports = {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
-    email: {
-      type: 'string',
-      unique: true,
-      required: true
-    },
-    password:{
-      type: 'string',
-      required: true
-    },
-    name: {
-      type: 'string',
-      required: true
-    },
-    industry: {
+    
+    title: {
       type: 'string'
     },
-    balance: {
-      type: 'number',
-      defaultsTo: 0
+    details: {
+      type: 'string'
     },
-
+    
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
 
+
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
-    has_task: {
-      collection: 'Task',
-      via: 'belongs_enterprise'
+    belongs_inspector:{
+      collection: 'Inspector',
+      via: 'has_notification'
     },
-    has_notification:{
-      collection: 'Notification',
-      via: 'belongs_enterprise'
+    belongs_enterprise:{
+      collection: 'Enterprise',
+      via: 'has_notification'
     }
-    
-  },
-
-    customToJSON: function() {
-      // Return a shallow copy of this record with the password removed.
-      return _.omit(this, ['password'])
   },
 
 };

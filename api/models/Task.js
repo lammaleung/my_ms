@@ -19,7 +19,19 @@ module.exports = {
     address: {
       type: 'string'
     },
+    latitude: {
+      type: 'number'
+    },
+    longitude: {
+      type: 'number'
+    },
     inspector_no: {
+      type: 'number'
+    },
+    reserved_no: {
+      type: 'number'
+    },
+    completed_no: {
       type: 'number'
     },
     inspector_type: {
@@ -29,7 +41,7 @@ module.exports = {
       type: 'string'
     },
     pay:{
-      type: 'string'
+      type: 'number'
     }, 
     start_date:{
       type: 'string'
@@ -40,7 +52,9 @@ module.exports = {
     payment_reference:{
       type: 'string'
     },
-
+    question_no:{
+      type: 'number'
+    },
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
@@ -53,6 +67,10 @@ module.exports = {
       collection: 'Inspector',
       via: 'has_task'
     },
+    inspector_completed:{
+      collection: 'Inspector',
+      via: 'completed_task'
+    },
     belongs_enterprise: {
       collection: 'Enterprise',
       via: 'has_task'
@@ -64,7 +82,8 @@ module.exports = {
     has_question:{
       collection: 'Question',
       via: 'belongs_task'
-    }
+    },
+    
   },
 
 };

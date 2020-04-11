@@ -59,10 +59,18 @@ module.exports = {
       collection: 'Task',
       via: 'belongs_inspector'
     },
+    completed_task:{
+      collection: 'Task',
+      via: 'inspector_completed'
+    },
     // has_answer:{
     //   collection: 'Answer',
     //   via: 'belongs_inspector'
     // }
+    has_notification:{
+      collection: 'Notification',
+      via: 'belongs_inspector'
+    }
 
   },
 
